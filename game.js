@@ -98,6 +98,7 @@ class Game {
         this.enemyOffsetLeft = 30;
         this.enemySpeed = 1;
         this.enemyDirection = 1; // 1 for right, -1 for left
+        this.score = 0; // Initialize score
         
         this.initGame();
     }
@@ -105,6 +106,7 @@ class Game {
     initGame() {
         this.gameOver = false;
         this.gameWon = false;
+        this.score = 0; // Reset score
         this.player = new Player(this.gameWidth, this.gameHeight);
         this.bullet = null;
         this.enemies = [];
@@ -196,6 +198,7 @@ class Game {
                 
                 this.enemies.splice(i, 1);
                 this.bullet = null;
+                this.score += 100; // Increment score
 
                 if (this.enemies.length === 0) {
                     this.gameWon = true;
@@ -225,6 +228,14 @@ class Game {
 
     getBullet() {
         return this.bullet;
+    }
+
+    getScore() {
+        return this.score;
+    }
+
+    restart() {
+        this.initGame(); // Re-initialize the game state
     }
 }
 

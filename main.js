@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    const gameOverMessageEl = document.getElementById('gameOverMessage');
+    const youWinMessageEl = document.getElementById('youWinMessage');
+    const restartButtonGameOverEl = document.getElementById('restartButtonGameOver');
+    const restartButtonWinEl = document.getElementById('restartButtonWin');
+    const scoreDisplayEl = document.getElementById('scoreDisplay');
 
     // Set canvas dimensions
     canvas.width = 800;
@@ -69,15 +74,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function drawGameMessages() {
-        ctx.fillStyle = 'white';
-        ctx.font = '45px Arial';
-        ctx.textAlign = 'center';
+        // ctx.fillStyle = 'white';
+        // ctx.font = '45px Arial';
+        // ctx.textAlign = 'center';
 
-        if (game.isGameOver()) {
-            ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
-        } else if (game.isGameWon()) {
-            ctx.fillText('You Win!', canvas.width / 2, canvas.height / 2);
-        }
+        // if (game.isGameOver()) {
+        //     ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
+        // } else if (game.isGameWon()) {
+        //     ctx.fillText('You Win!', canvas.width / 2, canvas.height / 2);
+        // }
     }
 
     function draw() {
@@ -98,12 +103,27 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Display Game Messages
         drawGameMessages();
+        updateScoreDisplay(); // Update the score display
+    }
+
+    function updateScoreDisplay() {
+        if (scoreDisplayEl) {
+            scoreDisplayEl.textContent = `Score: ${game.getScore()}`;
+        }
     }
 
     function gameLoop() {
         // Check Game State first
-        if (game.isGameOver() || game.isGameWon()) {
-            draw(); // Draw final state (Game Over or You Win message)
+        if (game.isGameOver()) {
+            gameOverMessageEl.classList.remove('hidden');
+            gameOverMessageEl.classList.add('opacity-100', 'transition-opacity', 'duration-500');
+            draw(); // Draw final state
+            return; // Stop the loop
+        }
+        if (game.isGameWon()) {
+            youWinMessageEl.classList.remove('hidden');
+            youWinMessageEl.classList.add('opacity-100', 'transition-opacity', 'duration-500');
+            draw(); // Draw final state
             return; // Stop the loop
         }
 
@@ -114,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         game.updateEnemies();
         // Check game over again after enemy update (e.g., enemies reached bottom)
         if (game.isGameOver()) {
+            gameOverMessageEl.classList.remove('hidden');
+            gameOverMessageEl.classList.add('opacity-100', 'transition-opacity', 'duration-500');
             draw();
             return;
         }
@@ -121,6 +143,8 @@ document.addEventListener('DOMContentLoaded', () => {
         game.updateBulletAndCollisions();
         // Check game won again after bullet collisions (e.g., all enemies defeated)
         if (game.isGameWon()) {
+            youWinMessageEl.classList.remove('hidden');
+            youWinMessageEl.classList.add('opacity-100', 'transition-opacity', 'duration-500');
             draw();
             return;
         }
@@ -135,4 +159,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the game (already done by game constructor) and start the loop
     // game.initGame(); // This is called within the Game constructor
     gameLoop();
+
+    function restartGameLogic() {
+        game.restart(); // Call the restart method on the game instance
+
+        // Hide game over/win messages and buttons
+        gameOverMessageEl.classList.add('hidden', 'opacity-0');
+        gameOverMessageEl.classList.remove('opacity-100', 'transition-opacity', 'duration-500'); // Remove transition classes too
+        youWinMessageEl.classList.add('hidden', 'opacity-0');
+        youWinMessageEl.classList.remove('opacity-100', 'transition-opacity', 'duration-500'); // Remove transition classes too
+
+        // Ensure keys are reset
+        for (const key in keys) {
+            if (keys.hasOwnProperty(key)) {
+                keys[key] = false;
+            }
+        }
+        
+        // Restart the game loop
+        gameLoop();
+    }
+
+    restartButtonGameOverEl.addEventListener('click', restartGameLogic);
+    restartButtonWinEl.addEventListener('click', restartGameLogic);
 });

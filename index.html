@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invaders JS</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Space Invaders JS</h1>
-    <canvas id="gameCanvas"></canvas>
+<body class="bg-gradient-to-b from-gray-900 to-black text-white flex flex-col items-center justify-center min-h-screen">
+    <h1 class="text-4xl font-bold my-8">Space Invaders JS</h1>
+    <div id="scoreDisplay" class="text-xl font-bold text-blue-400 mb-4">Score: 0</div>
+    <div class="relative flex justify-center items-center border-2 border-gray-600 shadow-2xl rounded-lg">
+        <canvas id="gameCanvas" class="max-w-full h-auto"></canvas>
+        <div id="gameOverMessage" class="hidden opacity-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-8 rounded-lg shadow-xl text-center">
+            <h2 class="text-white text-3xl font-bold">Game Over</h2>
+            <button id="restartButtonGameOver" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform hover:scale-105">Restart Game</button>
+        </div>
+        <div id="youWinMessage" class="hidden opacity-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-800 p-8 rounded-lg shadow-xl text-center">
+            <h2 class="text-white text-3xl font-bold">You Win!</h2>
+            <button id="restartButtonWin" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform hover:scale-105">Restart Game</button>
+        </div>
+    </div>
     <script src="game.js"></script>
     <script src="main.js"></script>
 </body>
