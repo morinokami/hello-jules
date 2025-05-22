@@ -33,13 +33,19 @@ class Player {
 }
 
 class Bullet {
-    constructor(x, y, speed) { // Color removed, will be handled by main.js if needed
+    constructor(x, y, colorOrSpeed, speed) {
         this.x = x;
         this.y = y;
         this.width = 5;
         this.height = 15;
-        // this.color = color; // Drawing detail
-        this.speed = speed;
+        // Support both signatures: (x, y, speed) and (x, y, color, speed)
+        if (typeof colorOrSpeed === 'string' && typeof speed !== 'undefined') {
+            this.color = colorOrSpeed;
+            this.speed = speed;
+        } else {
+            this.color = 'yellow'; // default bullet color
+            this.speed = colorOrSpeed;
+        }
     }
 
     // draw(ctx) { // Drawing will be handled by main.js
@@ -53,12 +59,12 @@ class Bullet {
 }
 
 class Enemy {
-    constructor(x, y, width, height) { // Color removed
+    constructor(x, y, width, height, color = 'green') {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        // this.color = color; // Drawing detail
+        this.color = color;
     }
 
     // draw(ctx) { // Drawing will be handled by main.js
