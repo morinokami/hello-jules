@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morinokami/hello-jules.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/morinokami/hello-jules/issues"
+  },
+  "homepage": "https://github.com/morinokami/hello-jules#readme",
+  "devDependencies": {
+    "jsdom": "^26.1.0",
+    "vitest": "^3.1.4"
+  }
+}
